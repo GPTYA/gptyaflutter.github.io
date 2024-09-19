@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [ "delegate_permission/common.handle_all_urls" ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.modupharmacy.app",
+      "sha256_cert_fingerprints": [
+        "D8:1F:F0:89:E5:35:63:41:D9:E9:14:8F:97:7A:25:32:4C:73:98:77:0C:39:79:44:AA:95:35:6C:7A:57:52:E7",
+        "4B:D5:06:3C:F5:CE:0B:65:2F:79:57:C1:8D:B7:5C:FE:A8:DC:72:8D:3E:4C:68:09:54:2F:D7:7E:56:AF:5C:7C",
+        "4C:43:1C:70:BE:FA:51:CB:D0:E3:01:0E:37:D6:5E:B6:75:56:F3:BA:A5:AE:28:FD:1C:D9:CF:64:52:BE:D5:9E"
+      ]
+    }
+  }
+]

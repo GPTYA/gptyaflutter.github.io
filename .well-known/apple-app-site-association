@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "XM653GU6B9.com.modupharmacy.app",
+        "paths": [ "/AppLink/*" ]
+      }
+    ]
+  }
+}
