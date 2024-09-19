@@ -3,6 +3,24 @@
 <head>
     <title>Your Website Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        window.onload = function () {
+            // 앱 링크로 연결
+            window.location.href = "https://gptya032.github.io/AppLink/";
+
+            // 2초 후에 앱이 설치되지 않은 경우 마켓으로 리다이렉트
+            setTimeout(function () {
+                var isAndroid = /android/i.test(navigator.userAgent);
+                var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+                if (isAndroid) {
+                    window.location.href = "market://details?id=com.modupharmacy.app";
+                } else if (isIOS) {
+                    window.location.href = "https://apps.apple.com/app/id6443673669";
+                }
+            }, 2000); 
+        };
+    </script>
 </head>
 <body>
     <h1>AppLink Test</h1>
