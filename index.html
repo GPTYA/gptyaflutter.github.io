@@ -1,29 +1,333 @@
-<!DOCTYPE html>
-<html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Your Website Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        window.onload = function () {
-            // 앱 링크로 연결
-            window.location.href = "https://gptya032.github.io/AppLink/";
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+<title>호스트방식(APP) 결제샘플</title>
 
-            // 2초 후에 앱이 설치되지 않은 경우 마켓으로 리다이렉트
-            setTimeout(function () {
-                var isAndroid = /android/i.test(navigator.userAgent);
-                var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-                if (isAndroid) {
-                    window.location.href = "market://details?id=com.modupharmacy.app";
-                } else if (isIOS) {
-                    window.location.href = "https://apps.apple.com/app/id6443673669";
-                }
-            }, 2000); 
-        };
-    </script>
+<style type="text/css">
+	BODY{font-size:6pt; line-height:160%}
+	TD{font-size:6pt; line-height:160%}
+	A {color:blue;line-height:160%; background-color:#E0EFFE}
+	INPUT{font-size:6pt;}
+	SELECT{font-size:6pt;}
+	.emp{background-color:#FDEAFE;}
+</style>
 </head>
+<script language="javascript">
+
+	function _pay(_frm) 
+	{
+		var agent = navigator.userAgent;
+
+		if( _frm.sndtarget.value == "0"){
+			_frm.action ='http://210.181.28.134/store/KSPayMobileV1.4/KSPayPWeb.jsp';
+			_frm.sndReply.value = getLocalUrl("kspay_wh_result.jsp") ;
+		}else if( _frm.sndtarget.value == "1"){
+			_frm.action ='http://kspay.ksnet.to/store/KSPayMobileV1.4/KSPayPWeb.jsp';
+			_frm.sndReply.value = getLocalUrl("kspay_wh_result.jsp") ;
+		}else if( _frm.sndtarget.value == "2")
+		{
+			_frm.action ='https://kspay.ksnet.to/store/KSPayMobileV1.4/KSPayPWeb.jsp';
+			_frm.sndReply.value = getLocalUrl("kspay_wh_result.jsp") ;
+		}
+		//_frm.target = '_blank';
+
+		_frm.submit();
+    }
+
+	function getLocalUrl(mypage) 
+	{ 
+		var myloc = location.href; 
+		return myloc.substring(0, myloc.lastIndexOf('/')) + '/' + mypage;
+	} 
+	function pay_select(txt)
+	{
+		if(txt == "에스크로(가상)"  || txt == "에스크로(계좌)")
+		{
+			document.authFrmFrame.sndEscrow.value="1";
+		}else{
+			document.authFrmFrame.sndEscrow.value="0";
+		}
+		
+	}
+</script>
 <body>
-    <h1>AppLink Test</h1>
-    <p>test</p>
+<!-----------------------------------------<Part 1. authFrmFrame Form: 결과페이지주소 설정 > ---------------------------------------->
+<!--결제 완료후 결과값을 받아처리할 결과페이지의 주소-->
+	<form name=authFrmFrame method=post action="./kspay_wh_result.jsp" target="_self">
+<!-- 결과값 수신 파라메터, value값을 채우지마십시오. KSPayRcv.asp가 실행되면서 채워주는 값입니다-->
+<!--------------------------------------------------------------------------------------------------------------------------->
+<table border=0 width=100%>
+	<tr>
+	<td>
+	<hr noshade size=1>
+	<b>KSPay 지불 샘플</b>
+	<hr noshade size=1>
+	</td>
+	</tr>
+</table>
+<br>
+<table border=0 width=100%>
+<tr>
+<td align=center>
+<table width=100% cellspacing=0 cellpadding=0 border=0 bgcolor=#4F9AFF>
+<tr>
+<td>
+<table width=100% cellspacing=1 cellpadding=2 border=0>
+<tr bgcolor=#4F9AFF height=25>
+<td align=center><font color="#FFFFFF">
+정보를 기입하신 후 지불버튼을 눌러주십시오
+</font></td>
+</tr>
+<tr bgcolor=#FFFFFF>
+<td valign=top>
+<table width=100% cellspacing=0 cellpadding=2 border=0>
+<tr>
+<td align=center>
+<br>
+<table>
+<tr>
+<!----------------------------------------------- < Part 2. 고객에게 보여지지 않는 항목 > ------------------------------------>
+<!--이부분은 결제를 위해 상점에서 기본정보를 세팅해야 하는 부분입니다.														-->
+<!--단 고객에게는 보여지면 안되는 항목이니 테스트 후 필히 hidden으로 변경해주시길 바랍니다.				-->
+	<td colspan=2>고객에게 보여지지 않아야 하는 설정값 항목</td>
+</tr>
+<tr>
+	<td>결제수단 : </td>
+	<td>
+		<select name=sndPaymethod onchange="pay_select(this.options[this.selectedIndex].text);">
+			<option value='1000000000' selected>신용카드</option>
+			<option value='0100000000'>가상계좌</option>
+			<option value='0010000000'>계좌이체</option>
+			<option value='0100000000'>에스크로(가상)</option>
+			<option value='0010000000'>에스크로(계좌)</option>
+			<option value='0000010000'>휴대폰결제</option>
+			<option value="0000000010" >KAKAO</option>
+			<option value="0000000001" >SSG</option>                       
+			<option value="00000000001" >LPAY</option>
+			<option value="000000000001" >PAYCO</option>
+			<option value="0000000000001" >NPAY</option>
+			<option value="00000000000001" >UNIONPAY</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>리얼/테스트</td>
+	<td>
+		<select name=sndtarget>
+			<option value="0" >TEST</option>
+			<option value="1" selected>REAL</option>
+			<option value="2" >REAL https</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>상점아이디 : </td>
+	<td><input type=text name=sndStoreid size=10 maxlength=10 value="2999199999"></td></tr>
+<tr>
+<!-- 화폐단위 원화로 설정 : 410 또는 WON -->
+	<td>화폐단위 : </td>
+	<td><input type=text name=sndCurrencytype size=30 maxlength=3 value="WON"></td>
+</tr>
+<tr>
+<!--상품명은 30Byte(한글 15자) 입니다. 특수문자 ' " - ` 는 사용하실수 없습니다. 따옴표,쌍따옴표,빼기,백쿼테이션 -->
+	<td>주문번호 : </td>
+	<td><input type=text name=sndOrdernumber size=30 maxlength=30 value="carrot_1234"></td>
+</tr>
+<tr>
+<!--주민등록번호는 필수값이 아닙니다.-->
+	<td>주민번호 : </td>
+	<td><input type=text name=sndAllregid size=30 maxlength=13 value="">
+</td>
+</tr>
+<tr>
+	<td colspan=2><hr></td></tr>
+<tr>
+	<td colspan=2>신용카드 기본항목</td>
+</tr>
+<tr>
+<!--상점에서 적용할 할부개월수를 세팅합니다. 여기서 세팅하신 값은 KSPAY결재팝업창에서 고객이 스크롤선택하게 됩니다 -->
+<!--아래의 예의경우 고객은 0~12개월의 할부거래를 선택할수있게 됩니다. -->
+	<td>할부개월수  : </td>
+	<td><input type=text name=sndInstallmenttype size=30 maxlength=30 value="0:2:3:4:5:6:7:8:9:10:11:12"></td>
+</tr>
+<tr>
+<!--무이자 구분값은 중요합니다. 무이자 선택하게 되면 상점쪽에서 이자를 내셔야합니다.-->
+<!--무이자 할부를 적용하지 않는 업체는 value='NONE" 로 넘겨주셔야 합니다. -->
+<!--예 : 모두 무이자 적용할 때는 value="ALL" / 무이자 미적용할 때는 value="NONE" -->
+<!--예 : 3,4,5,6개월 무이자 적용할 때는 value="3:4:5:6" -->
+	<td>무이자구분  : </td>
+	<td><input type=text name=sndInteresttype size=30 maxlength=30 value="NONE"></td>
+</tr>
+<tr>
+	<td>신용카드표시구분  : </td>
+	<td><input type=text name=sndShowcard size=30 maxlength=30 value="C"></td>
+</tr>
+<tr>
+	<td colspan=2><hr></td></tr>
+<tr>
+<!----------------------------------------------- <Part 3. 고객에게 보여주는 항목 > ----------------------------------------------->
+	<td colspan=2>고객에게 보여주는 항목</td>
+</tr>
+<tr>
+<!--상품명은 30Byte(한글 15자)입니다. 특수문자 ' " - ` 는 사용하실수 없습니다. 따옴표,쌍따옴표,빼기,백쿼테이션 -->
+	<td>상품명 : </td>
+	<td><input type=text name=sndGoodname size=30 maxlength=30 value="당근10kg"></td>
+</tr>
+<tr>
+	<td>가격 : </td>
+	<td><input type=text name=sndAmount size=30 maxlength=9 value="1004"></td>
+</tr>
+<tr>
+	<td>성명 : </td>
+	<td><input type=text name=sndOrdername size=30 maxlength=20 value="김토끼"></td>
+</tr>
+<!--KSPAY에서 결제정보를 메일로 보내줍니다.(신용카드거래에만 해당)-->
+<tr>
+	<td>전자우편 : </td>
+	<td>
+	<input type=text name=sndEmail size=30 maxlength=50 value="kspay@carrot.do.kr">
+	</td>
+</tr>	
+<!--카드사에 SMS 서비스를 등록하신 고객에 한해서 SMS 문자메세지를 전송해 드립니다.-->
+<!--전화번호 value 값에 숫자만 넣게 해주시길 바랍니다. : '-' 가 들어가면 안됩니다.-->
+<tr>
+	<td>이동전화 : </td>
+	<td>
+	<input type=text name=sndMobile size=30 maxlength=12 value="01609879999">
+	</td>
+</tr>
+<tr>
+	<td>MpiAuthType : </td>
+	<td>
+	<input type=text name=sndMpiAuthType size=30 maxlength=50 value=""> <!-- 0:일반결제, 1:간편결제, 3:앱카드 삼성 신한 현대 -->
+	</td>
+</tr>	
+<tr>
+	<td>sndVpReqAuth : </td>
+	<td>
+	<input type=text name=sndVpReqAuth size=30 maxlength=50 value="">
+	</td>
+</tr>	
+<tr>
+	<td>sndLanguage : </td>
+	<td>
+	<input type=text name=sndLanguage size=30 maxlength=50 value="KOR">
+	</td>
+</tr>	
+<tr>
+	<td>sndUsebonusPoint : </td>
+	<td>
+	<input type=text name=sndusebonuspoint size=30 maxlength=50 value="">
+	</td>
+</tr>	
+<tr>
+        <td>sndqpaytype : </td>
+        <td>
+        <input type=text name=sndQPayType size=30 maxlength=50 value="1">
+        </td>
+</tr>
+<tr>
+        <td>sndRtApp : </td>
+        <td>
+        <input type=text name=sndRtApp size=30 maxlength=50 value="iossamplesw://">
+        </td>
+</tr>
+<tr>
+	<td>sndCompSele : </td>
+	<td>
+	<input type=text name=sndCompSele size=30 maxlength=50 value="">
+	</td>
+</tr>
+<tr>
+	<td>sndSvcCode : </td>
+	<td>
+	<input type=text name=sndSvcCode size=30 maxlength=50 value="">
+	</td>
+</tr>
+<tr>
+	<td>sndSvcAmount : </td>
+	<td>
+	<input type=text name=sndSvcAmount size=30 maxlength=50 value="">
+	</td>
+</tr>
+<tr>
+	<td>sndShSmartEventYN : </td>
+	<td>
+	<input type=text name=sndShSmartEventYN size=30 maxlength=50 value="n">
+	</td>
+</tr>
+<tr>
+	<td>sndUpopPgid : </td>
+	<td>
+	<input type=text name=sndUpopPgid size=30 maxlength=50 value="TEST">
+	</td>
+</tr>
+<tr>
+	<td>sndCvcAuth : </td>
+	<td>
+	<input type=text name=sndCvcAuth size=30 maxlength=50 value="">
+	</td>
+</tr>
+<tr>
+	<td colspan=2 align=center>
+	<br>
+	<input type="button" value=" 지 불 " onClick="javascript:_pay(document.authFrmFrame);">
+	<br><br>
+	</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<br>
+
+<table border=0 width=100%>
+	
+	<tr>
+	<td><hr noshade size=1></td>
+	</tr>
+
+<!-- goOpen()에서 사용자가 접속한 URL을 받아와서 sndReply의 값에 세팅합니다.
+sndReply는 KSPayRcv.asp(결제승인 후 결과값들을 본창의 authFrmFrame Form에 넘겨주는 페이지)의 절대경로를 넣어줍니다. -->
+	<input type=hidden name=sndReply           value="">
+
+<!--KSPAY 결제팝업창에서 사용가능한 결제수단을 세팅합니다. 각 결재수단은 각각의 계약이 이루어져 오픈되있어야 사용가능합니다.-->
+	<input type=hidden name=sndEscrow          value="0">	  <!--에스크로적용여부-- 0: 적용안함, 1: 적용함 -->
+	<input type=hidden	name=sndVirDenyBank value="NONE"> 		<!-- 발급제외은행  -->
+	<input type=hidden  name=sndVirExpDt     value="">      	<!-- 마감일시 -->
+	<input type=hidden  name=sndVirExpTm     value="">      	<!-- 마감시간 -->
+	
+	<!-- 3. 월드패스카드 관련설정 -->
+	<input type=hidden	name=sndWptype value="1">  				<!--선/후불카드구분 (1:선불카드, 2:후불카드, 3:모든카드) -->
+	<input type=hidden	name=sndAdulttype value="1">  			<!--성인확인여부 (0:성인확인불필요, 1:성인확인필요) -->
+
+	<!-- 4. 계좌이체 현금영수증발급여부 설정 -->
+	<input type=hidden	name=sndCashReceipt value="1">  		<!--계좌이체시 현금영수증 발급여부 (0: 발급안함, 1:발급) -->
+	<input type=hidden name=sndCashbag         value="0">     <!--OK CashBag-- 0: 미사용, 1: 사용 -->
+	<input type=hidden name=sndStoreName       value="티머니">    <!--회사명을 한글로 넣어주세요(최대20byte)-->
+	<input type=hidden name=sndStoreNameEng    value="kspay_test_store">   <!--회사명을 영어로 넣어주세요(최대20byte)-->
+	<input type=hidden name=sndStoreDomain     value="http://www.kspay_test.co.kr">   <!-- 회사 도메인을 http://를 포함해서 넣어주세요-->
+	<input type=hidden name=sndGoodType		   value="1">		<!--실물(1) / 디지털(2) -->
+	<input type=hidden name=ECHA		value="테스트001">
+	<input type=hidden name=ECHB		value="추가파라미터B">
+	<input type=hidden name=ECHC		value="추가파라미터C">  
+	<!-- <input type=hidden name=sndVpReqAuth value="true"> --> <!-- 3factot 인증 -->
+	
+
+</table>
+
+</form>
 </body>
 </html>
